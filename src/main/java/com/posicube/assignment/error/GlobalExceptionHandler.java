@@ -14,37 +14,6 @@ public class GlobalExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-//    // 인터럽트 예외 핸들러
-//    @ExceptionHandler(InterruptedCustomException.class)
-//    public ResponseEntity<ErrorResponseDto> handleInterruptedException(
-//            InterruptedCustomException e,
-//            HttpServletRequest request
-//    ) {
-//        log.error("InterruptedException 발생: " + e.getMessage(), e);
-//        ApiCommonException apiEx = new ApiCommonException(e.getCode());
-//        return ErrorResponseDto.makeErrorResponse(apiEx, request);
-//    }
-//
-//    @ExceptionHandler(ResourceNotFoundException.class)
-//    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(
-//            ResourceNotFoundException e,
-//            HttpServletRequest request
-//    ) {
-//        log.error("ResourceNotFoundException 발생: " + e.getMessage(), e);
-//        ApiCommonException apiEx = new ApiCommonException(e.getCode());
-//        return ErrorResponseDto.makeErrorResponse(apiEx, request);
-//    }
-//
-//    @ExceptionHandler(InvalidPermissionException.class)
-//    public ResponseEntity<ErrorResponseDto> handleInvalidPermissionException(
-//            InvalidPermissionException e,
-//            HttpServletRequest request
-//    ) {
-//        log.error("InvalidPermissionException 발생: " + e.getMessage(), e);
-//        ApiCommonException apiEx = new ApiCommonException(e.getCode());
-//        return ErrorResponseDto.makeErrorResponse(apiEx, request);
-//    }
-
     @ExceptionHandler(ApiCommonException.class)
     public ResponseEntity<ErrorResponseDto> handleApiCommonException(
             ApiCommonException e,
