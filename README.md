@@ -1,13 +1,13 @@
 # 🧩 Assignment Project
 
-Spring Boot 기반의 **User / Assistant 도메인 서비스** 구현 및 단위 테스트 프로젝트입니다.
+Spring Boot 기반의 **User / Assistant 도메인 서비스** 구현 및 단위 테스트 프로젝트입니다.<br>
 사용자 정보 관리, 모델 질의 처리, 토큰 사용량 계산 및 예외 처리를 포함하고 있습니다.
 
 ---
 
 # 📁 도메인 설계 및 분리 이유
 
-이 프로젝트는 실제 서비스 환경에서의 **트래픽 특성**과 **확장성(Scalability)**을 고려해 `user`와 `assistant` 도메인을 분리했습니다.
+이 프로젝트는 실제 서비스 환경에서의 **트래픽 특성**과 확장성을 고려해 `user`와 `assistant` 도메인을 분리했습니다.
 - User 도메인
     - 사용자 등록, 요금제, 토큰 사용량 관리 등 상대적으로 요청 빈도가 낮고 데이터 정합성이 중요한 영역입니다.
     - 필터를 통해 인증된 사용자의 `userId`가 헤더에 자동 주입되어 각 요청에 포함되며, 서비스 로직은 해당 ID를 기반으로 동작합니다.
@@ -41,13 +41,12 @@ Spring Boot 기반의 **User / Assistant 도메인 서비스** 구현 및 단위
 2. 트래픽 부하 분산
     - LLM 질의 요청이 집중될 때 Redis를 통해 사용자 상태 및 요청 이력을 공유해 부하를 완화합니다.
 
-# 🚀 Redis 실행 명령어
+### 🚀 Redis 실행 명령어
 
 [bash]
-# Redis 서버 실행
 docker run --name assignment-redis -p 6379:6379 -d redis
 
-# 실행 확인
+### 실행 확인
 docker ps | grep redis
 
 ---
@@ -59,26 +58,26 @@ docker ps | grep redis
 `UserServiceTest` → 사용자 생성 및 사용량 관리
 `AssistantServiceTest` → 질의 처리 및 예외 상황 검증
 
-# ▶ User 도메인 테스트
-
+### ▶ User 도메인 테스트
+> --
 [bash]
 ./gradlew test --tests "com.posicube.assignment.domain.user.UserServiceTest" --rerun-tasks
 
 ### ▶ Assistant 도메인 테스트
-
+> --
 [bash]
 ./gradlew test --tests "com.posicube.assignment.domain.assistant.AssistantServiceTest" --rerun-tasks
 
-> --rerun-tasks 옵션을 통해 캐시된 테스트 결과를 무시하고 매번 새로 실행합니다.
+rerun-tasks 옵션을 통해 캐시된 테스트 결과를 무시하고 매번 새로 실행합니다.
 
 ---
 
 # 🚨 에러 처리 구조
 
-모든 예외는 공통 예외 클래스(`ApiCommonException`)를 통해 관리됩니다.
+모든 예외는 공통 예외 클래스(`ApiCommonException`)를 통해 관리됩니다.<br>
 `GlobalErrorCode` Enum에 정의된 코드로 일관된 에러 응답을 제공합니다.
 
-# 주요 에러 코드
+### 주요 에러 코드
 
 | 코드 | 설명 |
 | --- | --- |
@@ -91,7 +90,7 @@ docker ps | grep redis
 # 🧩 테스트 로그 출력 설정
 
 `build.gradle` 하단에 아래 설정을 추가하면 터미널에서 테스트 로그가 실시간으로 출력됩니다.
-
+> --
 tasks.withType(Test) {
     useJUnitPlatform()
     testLogging {
@@ -103,8 +102,8 @@ tasks.withType(Test) {
 ---
 
 # ✅ 실행 결과 예시
-
-UserServiceTest > 유저 저장 성공 PASSED
-UserServiceTest > 사용 내역 조회 성공 - PRO 요금제 PASSED
-AssistantServiceTest > 질의 성공 - 정상 응답 반환 PASSED
+> --
+UserServiceTest > 유저 저장 성공 PASSED<br>
+UserServiceTest > 사용 내역 조회 성공 - PRO 요금제 PASSED<br>
+AssistantServiceTest > 질의 성공 - 정상 응답 반환 PASSED<br>
 AssistantServiceTest > 질의 실패 - LLM 예외 발생 시 ApiCommonException 반환 PASSED
